@@ -1,0 +1,1202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medicine Ordering App - Interactive Wireframe</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .phone-frame {
+            width: 375px;
+            height: 812px;
+            background: #fff;
+            border-radius: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .notch {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200px;
+            height: 30px;
+            background: #000;
+            border-radius: 0 0 20px 20px;
+            z-index: 1000;
+        }
+
+        .screen {
+            display: none;
+            height: 100%;
+            overflow-y: auto;
+            padding: 40px 20px 20px;
+        }
+
+        .screen.active {
+            display: block;
+        }
+
+        .header {
+            padding: 20px 0;
+            margin-bottom: 20px;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 5px;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .back-btn {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 10px;
+            margin: -10px 0 10px -10px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .input-group input,
+        .input-group select,
+        .input-group textarea {
+            width: 100%;
+            padding: 14px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            font-size: 15px;
+            transition: all 0.3s;
+        }
+
+        .input-group input:focus,
+        .input-group select:focus,
+        .input-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-secondary {
+            background: #f5f5f5;
+            color: #333;
+            margin-top: 10px;
+        }
+
+        .link-text {
+            text-align: center;
+            margin-top: 15px;
+            color: #667eea;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .search-bar {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .search-bar input {
+            width: 100%;
+            padding: 14px 45px 14px 45px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            font-size: 15px;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #999;
+        }
+
+        .filter-icon {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #667eea;
+            cursor: pointer;
+        }
+
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .category-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            border-radius: 16px;
+            text-align: center;
+            color: white;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .category-card:hover {
+            transform: scale(1.05);
+        }
+
+        .category-icon {
+            font-size: 32px;
+            margin-bottom: 8px;
+        }
+
+        .medicine-card {
+            background: #fff;
+            border: 2px solid #e0e0e0;
+            border-radius: 16px;
+            padding: 15px;
+            margin-bottom: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .medicine-card:hover {
+            border-color: #667eea;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.2);
+        }
+
+        .medicine-name {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 5px;
+        }
+
+        .medicine-info {
+            font-size: 13px;
+            color: #666;
+            margin-bottom: 8px;
+        }
+
+        .medicine-price {
+            font-size: 18px;
+            font-weight: 700;
+            color: #667eea;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 600;
+            margin-top: 5px;
+        }
+
+        .badge-rx {
+            background: #ffe0e0;
+            color: #d32f2f;
+        }
+
+        .badge-otc {
+            background: #e0f7e0;
+            color: #2e7d32;
+        }
+
+        .cart-item {
+            display: flex;
+            gap: 15px;
+            background: #f9f9f9;
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 15px;
+        }
+
+        .cart-item-info {
+            flex: 1;
+        }
+
+        .quantity-control {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .qty-btn {
+            width: 30px;
+            height: 30px;
+            border: 2px solid #667eea;
+            background: white;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            color: #667eea;
+        }
+
+        .order-summary {
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 12px;
+            margin: 20px 0;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+
+        .summary-row.total {
+            font-size: 18px;
+            font-weight: 700;
+            color: #667eea;
+            padding-top: 10px;
+            border-top: 2px solid #e0e0e0;
+        }
+
+        .upload-area {
+            border: 2px dashed #667eea;
+            border-radius: 12px;
+            padding: 30px;
+            text-align: center;
+            cursor: pointer;
+            margin: 20px 0;
+            transition: all 0.3s;
+        }
+
+        .upload-area:hover {
+            background: #f5f7ff;
+        }
+
+        .status-timeline {
+            margin: 30px 0;
+        }
+
+        .status-item {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        .status-item:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            left: 17px;
+            top: 35px;
+            width: 2px;
+            height: calc(100% + 10px);
+            background: #e0e0e0;
+        }
+
+        .status-dot {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            background: #e0e0e0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .status-dot.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 375px;
+            background: white;
+            border-top: 1px solid #e0e0e0;
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+            border-radius: 40px 40px 0 0;
+        }
+
+        .nav-item {
+            text-align: center;
+            cursor: pointer;
+            padding: 5px 15px;
+            transition: all 0.3s;
+        }
+
+        .nav-item:hover {
+            color: #667eea;
+        }
+
+        .nav-icon {
+            font-size: 24px;
+            margin-bottom: 3px;
+        }
+
+        .nav-label {
+            font-size: 11px;
+        }
+
+        .otp-inputs {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+        .otp-input {
+            width: 50px;
+            height: 50px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: 600;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+        }
+
+        .rating-stars {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin: 20px 0;
+            font-size: 32px;
+        }
+
+        .star {
+            cursor: pointer;
+            color: #ddd;
+            transition: color 0.3s;
+        }
+
+        .star:hover,
+        .star.active {
+            color: #ffc107;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            margin-top: 2px;
+        }
+
+        .checkbox-group label {
+            flex: 1;
+            font-size: 13px;
+            color: #666;
+        }
+
+        .welcome-screen {
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .app-logo {
+            font-size: 80px;
+            margin-bottom: 20px;
+        }
+
+        .welcome-title {
+            font-size: 32px;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 10px;
+        }
+
+        .welcome-subtitle {
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 50px;
+        }
+    </style>
+</head>
+<body>
+    <div class="phone-frame">
+        <div class="notch"></div>
+
+        <!-- Welcome Screen -->
+        <div class="screen active" id="welcome">
+            <div class="welcome-screen">
+                <div class="app-logo">💊</div>
+                <h1 class="welcome-title">MediCare</h1>
+                <p class="welcome-subtitle">Your trusted medicine delivery partner</p>
+                <button class="btn btn-primary" onclick="showScreen('login')">Get Started</button>
+            </div>
+        </div>
+
+        <!-- Login Screen -->
+        <div class="screen" id="login">
+            <div class="header">
+                <h1>Welcome Back</h1>
+                <p>Sign in to continue</p>
+            </div>
+            <div class="input-group">
+                <label>Email</label>
+                <input type="email" placeholder="Enter your email">
+            </div>
+            <div class="input-group">
+                <label>Password</label>
+                <input type="password" placeholder="Enter your password">
+            </div>
+            <div class="link-text" onclick="showScreen('forgot-password')">Forgot Password?</div>
+            <button class="btn btn-primary" onclick="showScreen('home')" style="margin-top: 20px;">Login</button>
+            <div class="link-text" onclick="showScreen('register')">Don't have an account? Register</div>
+        </div>
+
+        <!-- Register Screen -->
+        <div class="screen" id="register">
+            <button class="back-btn" onclick="showScreen('login')">←</button>
+            <div class="header">
+                <h1>Create Account</h1>
+                <p>Sign up to get started</p>
+            </div>
+            <div class="input-group">
+                <label>Full Name</label>
+                <input type="text" placeholder="Enter your name">
+            </div>
+            <div class="input-group">
+                <label>Email</label>
+                <input type="email" placeholder="Enter your email">
+            </div>
+            <div class="input-group">
+                <label>Password</label>
+                <input type="password" placeholder="Min 8 chars, uppercase, lowercase, number, special char">
+            </div>
+            <div class="input-group">
+                <label>Confirm Password</label>
+                <input type="password" placeholder="Re-enter password">
+            </div>
+            <button class="btn btn-primary" onclick="showScreen('otp-verify')">Register</button>
+            <div class="link-text" onclick="showScreen('login')">Already have an account? Login</div>
+        </div>
+
+        <!-- OTP Verification -->
+        <div class="screen" id="otp-verify">
+            <button class="back-btn" onclick="showScreen('register')">←</button>
+            <div class="header">
+                <h1>Verify Email</h1>
+                <p>Enter the OTP sent to your email</p>
+            </div>
+            <div class="otp-inputs">
+                <input type="text" class="otp-input" maxlength="1">
+                <input type="text" class="otp-input" maxlength="1">
+                <input type="text" class="otp-input" maxlength="1">
+                <input type="text" class="otp-input" maxlength="1">
+                <input type="text" class="otp-input" maxlength="1">
+                <input type="text" class="otp-input" maxlength="1">
+            </div>
+            <div class="link-text">Resend OTP</div>
+            <button class="btn btn-primary" onclick="showScreen('home')" style="margin-top: 30px;">Verify</button>
+        </div>
+
+        <!-- Forgot Password -->
+        <div class="screen" id="forgot-password">
+            <button class="back-btn" onclick="showScreen('login')">←</button>
+            <div class="header">
+                <h1>Reset Password</h1>
+                <p>Enter your email to receive reset link</p>
+            </div>
+            <div class="input-group">
+                <label>Email</label>
+                <input type="email" placeholder="Enter your email">
+            </div>
+            <button class="btn btn-primary" onclick="showScreen('login')">Send Reset Link</button>
+        </div>
+
+        <!-- Home Screen -->
+        <div class="screen" id="home">
+            <div class="header">
+                <h1>Hi, User! 👋</h1>
+                <p>What are you looking for today?</p>
+            </div>
+            <div class="search-bar">
+                <span class="search-icon">🔍</span>
+                <input type="text" placeholder="Search medicines..." onclick="showScreen('search')">
+                <span class="filter-icon" onclick="showScreen('filters')">⚙️</span>
+            </div>
+            <h3 style="margin-bottom: 15px;">Categories</h3>
+            <div class="category-grid">
+                <div class="category-card" onclick="showScreen('search')">
+                    <div class="category-icon">💊</div>
+                    <div>Tablets</div>
+                </div>
+                <div class="category-card" onclick="showScreen('search')">
+                    <div class="category-icon">💉</div>
+                    <div>Injections</div>
+                </div>
+                <div class="category-card" onclick="showScreen('search')">
+                    <div class="category-icon">🧴</div>
+                    <div>Syrups</div>
+                </div>
+                <div class="category-card" onclick="showScreen('search')">
+                    <div class="category-icon">🩹</div>
+                    <div>First Aid</div>
+                </div>
+            </div>
+            <h3 style="margin: 25px 0 15px;">Popular Medicines</h3>
+            <div class="medicine-card" onclick="showScreen('medicine-detail')">
+                <div class="medicine-name">Paracetamol 500mg</div>
+                <div class="medicine-info">Generic Medicine • 10 Tablets</div>
+                <div class="medicine-price">$5.99</div>
+                <span class="badge badge-otc">OTC</span>
+            </div>
+            <div class="medicine-card" onclick="showScreen('medicine-detail')">
+                <div class="medicine-name">Amoxicillin 250mg</div>
+                <div class="medicine-info">Antibiotic • 15 Capsules</div>
+                <div class="medicine-price">$12.50</div>
+                <span class="badge badge-rx">Prescription Required</span>
+            </div>
+        </div>
+
+        <!-- Search Screen -->
+        <div class="screen" id="search">
+            <button class="back-btn" onclick="showScreen('home')">←</button>
+            <div class="header">
+                <h1>Search Medicines</h1>
+            </div>
+            <div class="search-bar">
+                <span class="search-icon">🔍</span>
+                <input type="text" placeholder="Search by name, category, ingredient..." autofocus>
+                <span class="filter-icon" onclick="showScreen('filters')">⚙️</span>
+            </div>
+            <div style="margin: 15px 0; color: #666; font-size: 14px;">Showing 24 results</div>
+            <div class="medicine-card" onclick="showScreen('medicine-detail')">
+                <div class="medicine-name">Ibuprofen 400mg</div>
+                <div class="medicine-info">Pain Relief • 20 Tablets</div>
+                <div class="medicine-price">$8.99</div>
+                <span class="badge badge-otc">OTC</span>
+            </div>
+            <div class="medicine-card" onclick="showScreen('medicine-detail')">
+                <div class="medicine-name">Aspirin 75mg</div>
+                <div class="medicine-info">Blood Thinner • 30 Tablets</div>
+                <div class="medicine-price">$6.50</div>
+                <span class="badge badge-rx">Prescription Required</span>
+            </div>
+            <div class="medicine-card" onclick="showScreen('medicine-detail')">
+                <div class="medicine-name">Cetirizine 10mg</div>
+                <div class="medicine-info">Allergy Relief • 10 Tablets</div>
+                <div class="medicine-price">$7.25</div>
+                <span class="badge badge-otc">OTC</span>
+            </div>
+        </div>
+
+        <!-- Filters Screen -->
+        <div class="screen" id="filters">
+            <button class="back-btn" onclick="showScreen('search')">←</button>
+            <div class="header">
+                <h1>Filters</h1>
+            </div>
+            <div class="input-group">
+                <label>Sort By</label>
+                <select>
+                    <option>Relevance</option>
+                    <option>Price: Low to High</option>
+                    <option>Price: High to Low</option>
+                    <option>Name: A to Z</option>
+                    <option>Availability</option>
+                </select>
+            </div>
+            <div class="input-group">
+                <label>Category</label>
+                <select>
+                    <option>All Categories</option>
+                    <option>Tablets</option>
+                    <option>Capsules</option>
+                    <option>Syrups</option>
+                    <option>Injections</option>
+                </select>
+            </div>
+            <div class="input-group">
+                <label>Brand</label>
+                <select>
+                    <option>All Brands</option>
+                    <option>Generic</option>
+                    <option>Brand A</option>
+                    <option>Brand B</option>
+                </select>
+            </div>
+            <div class="checkbox-group">
+                <input type="checkbox" id="in-stock">
+                <label for="in-stock">In Stock Only</label>
+            </div>
+            <div class="checkbox-group">
+                <input type="checkbox" id="no-rx">
+                <label for="no-rx">No Prescription Required</label>
+            </div>
+            <button class="btn btn-primary" onclick="showScreen('search')">Apply Filters</button>
+            <button class="btn btn-secondary" onclick="showScreen('search')">Clear All</button>
+        </div>
+
+        <!-- Medicine Detail Screen -->
+        <div class="screen" id="medicine-detail">
+            <button class="back-btn" onclick="showScreen('search')">←</button>
+            <div style="text-align: center; margin: 20px 0;">
+                <div style="font-size: 80px;">💊</div>
+            </div>
+            <h2 style="font-size: 24px; margin-bottom: 10px;">Paracetamol 500mg</h2>
+            <div class="medicine-price" style="margin-bottom: 15px;">$5.99</div>
+            <span class="badge badge-otc">OTC - No Prescription Required</span>
+            
+            <div style="margin: 25px 0;">
+                <h3 style="margin-bottom: 10px;">Product Details</h3>
+                <div style="font-size: 14px; color: #666; line-height: 1.6;">
+                    <p><strong>Manufacturer:</strong> PharmaCorp Ltd.</p>
+                    <p><strong>Composition:</strong> Paracetamol 500mg</p>
+                    <p><strong>Pack Size:</strong> 10 Tablets</p>
+                    <p><strong>Dosage:</strong> 1-2 tablets every 4-6 hours as needed</p>
+                </div>
+            </div>
+
+            <div style="margin: 25px 0;">
+                <h3 style="margin-bottom: 10px;">Description</h3>
+                <p style="font-size: 14px; color: #666; line-height: 1.6;">
+                    Paracetamol is used to treat pain and fever. It's effective for headaches, muscle aches, arthritis, backache, toothaches, colds, and fevers.
+                </p>
+            </div>
+
+            <button class="btn btn-primary" onclick="addToCart(); showScreen('cart')">Add to Cart</button>
+            <button class="btn btn-secondary" onclick="showScreen('search')">Continue Shopping</button>
+        </div>
+
+        <!-- Cart Screen -->
+        <div class="screen" id="cart">
+            <button class="back-btn" onclick="showScreen('home')">←</button>
+            <div class="header">
+                <h1>Shopping Cart</h1>
+                <p>3 items in cart</p>
+            </div>
+            
+            <div class="cart-item">
+                <div style="font-size: 40px;">💊</div>
+                <div class="cart-item-info">
+                    <div class="medicine-name">Paracetamol 500mg</div>
+                    <div class="medicine-info">10 Tablets</div>
+                    <div class="medicine-price">$5.99</div>
+                    <div class="quantity-control">
+                        <button class="qty-btn">-</button>
+                        <span>2</span>
+                        <button class="qty-btn">+</button>
+                        <span style="margin-left: auto; color: #d32f2f; cursor: pointer;">🗑️</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="cart-item">
+                <div style="font-size: 40px;">💊</div>
+                <div class="cart-item-info">
+                    <div class="medicine-name">Amoxicillin 250mg</div>
+                    <div class="medicine-info">15 Capsules</div>
+                    <div class="medicine-price">$12.50</div>
+                    <span class="badge badge-rx" style="margin-top: 5px;">Prescription Required</span>
+                    <div class="quantity-control">
+                        <button class="qty-btn">-</button>
+                        <span>1</span>
+                        <button class="qty-btn">+</button>
+                        <span style="margin-left: auto; color: #d32f2f; cursor: pointer;">🗑️</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="order-summary">
+                <div class="summary-row">
+                    <span>Subtotal</span>
+                    <span>$24.48</span>
+                </div>
+                <div class="summary-row">
+                    <span>Delivery Fee</span>
+                    <span>$3.00</span>
+                </div>
+                <div class="summary-row total">
+                    <span>Total</span>
+                    <span>$27.48</span>
+                </div>
+            </div>
+
+            <button class="btn btn-primary" onclick="showScreen('prescription-upload')">Proceed to Checkout</button>
+            <button class="btn btn-secondary" onclick="showScreen('home')">Continue Shopping</button>
+        </div>
+
+        <!-- Prescription Upload -->
+        <div class="screen" id="prescription-upload">
+            <button class="back-btn" onclick="showScreen('cart')">←</button>
+            <div class="header">
+                <h1>Upload Prescription</h1>
+                <p>Required for prescription medicines</p>
+            </div>
+
+            <div style="background: #fff3cd; padding: 15px; border-radius: 12px; margin-bottom: 20px; font-size: 13px;">
+                ⚠️ Prescription required for: Amoxicillin 250mg
+            </div>
+
+            <div class="upload-area" onclick="alert('File picker would open here')">
+                <div style="font-size: 48px; margin-bottom: 10px;">📄</div>
+                <div style="font-weight: 600; margin-bottom: 5px;">Upload Prescription</div>
+                <div style="font-size: 13px; color: #666;">JPG, PNG, PDF (Max 5MB)</div>
+            </div>
+
+            <button class="btn btn-secondary" onclick="alert('Camera would open here')">📷 Take Photo</button>
+
+            <div class="checkbox-group" style="margin-top: 25px;">
+                <input type="checkbox" id="clinical-need">
+                <label for="clinical-need">
+                    I confirm the clinical need for this medicine. Pharmacist: Dr. John Smith (Reg: PHM12345)
+                </label>
+            </div>
+
+            <button class="btn btn-primary" onclick="showScreen('checkout')" style="margin-top: 20px;">Continue to Checkout</button>
+        </div>
+
+        <!-- Checkout Screen -->
+        <div class="screen" id="checkout">
+            <button class="back-btn" onclick="showScreen('prescription-upload')">←</button>
+            <div class="header">
+                <h1>Checkout</h1>
+            </div>
+
+            <h3 style="margin-bottom: 15px;">Delivery Address</h3>
+            <div style="background: #f9f9f9; padding: 15px; border-radius: 12px; margin-bottom: 15px; border: 2px solid #667eea;">
+                <div style="font-weight: 600; margin-bottom: 5px;">Home</div>
+                <div style="font-size: 14px; color: #666;">123 Main Street, Apt 4B<br>New York, NY 10001</div>
+            </div>
+            <div style="background: #f9f9f9; padding: 15px; border-radius: 12px; margin-bottom: 15px; cursor: pointer;">
+                <div style="font-weight: 600; margin-bottom: 5px;">Office</div>
+                <div style="font-size: 14px; color: #666;">456 Business Ave, Suite 200<br>New York, NY 10002</div>
+            </div>
+            <button class="btn btn-secondary" style="margin-bottom: 25px;">+ Add New Address</button>
+
+            <h3 style="margin-bottom: 15px;">Order Summary</h3>
+            <div class="order-summary">
+                <div class="summary-row">
+                    <span>Items (3)</span>
+                    <span>$24.48</span>
+                </div>
+                <div class="summary-row">
+                    <span>Delivery Fee</span>
+                    <span>$3.00</span>
+                </div>
+                <div class="summary-row">
+                    <span>Estimated Delivery</span>
+                    <span>2-3 days</span>
+                </div>
+                <div class="summary-row total">
+                    <span>Total</span>
+                    <span>$27.48</span>
+                </div>
+            </div>
+
+            <button class="btn btn-primary" onclick="showScreen('order-confirmation')">Place Order</button>
+        </div>
+
+        <!-- Order Confirmation -->
+        <div class="screen" id="order-confirmation">
+            <div style="text-align: center; padding: 40px 20px;">
+                <div style="font-size: 80px; margin-bottom: 20px;">✅</div>
+                <h1 style="font-size: 28px; margin-bottom: 10px;">Order Placed!</h1>
+                <p style="color: #666; margin-bottom: 30px;">Your order has been confirmed</p>
+                
+                <div style="background: #f9f9f9; padding: 20px; border-radius: 12px; margin-bottom: 25px;">
+                    <div style="font-size: 14px; color: #666; margin-bottom: 5px;">Order ID</div>
+                    <div style="font-size: 24px; font-weight: 700; color: #667eea;">#ORD-2024-1234</div>
+                </div>
+
+                <div style="text-align: left; margin-bottom: 25px;">
+                    <div style="font-size: 14px; color: #666; margin-bottom: 10px;">Estimated Delivery</div>
+                    <div style="font-weight: 600;">Dec 1-3, 2024</div>
+                </div>
+
+                <button class="btn btn-primary" onclick="showScreen('order-tracking')">Track Order</button>
+                <button class="btn btn-secondary" onclick="showScreen('order-history')">View All Orders</button>
+                <button class="btn btn-secondary" onclick="showScreen('home')">Back to Home</button>
+            </div>
+        </div>
+
+        <!-- Order Tracking -->
+        <div class="screen" id="order-tracking">
+            <button class="back-btn" onclick="showScreen('order-history')">←</button>
+            <div class="header">
+                <h1>Track Order</h1>
+                <p>Order #ORD-2024-1234</p>
+            </div>
+
+            <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 20px; border-radius: 12px; margin-bottom: 25px;">
+                <div style="font-size: 14px; margin-bottom: 5px;">Estimated Delivery</div>
+                <div style="font-size: 24px; font-weight: 700;">Dec 1-3, 2024</div>
+            </div>
+
+            <div class="status-timeline">
+                <div class="status-item">
+                    <div class="status-dot active">✓</div>
+                    <div>
+                        <div style="font-weight: 600;">Order Placed</div>
+                        <div style="font-size: 13px; color: #666;">Nov 28, 2024 - 10:30 AM</div>
+                    </div>
+                </div>
+                <div class="status-item">
+                    <div class="status-dot active">✓</div>
+                    <div>
+                        <div style="font-weight: 600;">Processing</div>
+                        <div style="font-size: 13px; color: #666;">Nov 28, 2024 - 11:15 AM</div>
+                    </div>
+                </div>
+                <div class="status-item">
+                    <div class="status-dot active">📦</div>
+                    <div>
+                        <div style="font-weight: 600;">Dispatched</div>
+                        <div style="font-size: 13px; color: #666;">Nov 28, 2024 - 2:00 PM</div>
+                    </div>
+                </div>
+                <div class="status-item">
+                    <div class="status-dot">🚚</div>
+                    <div>
+                        <div style="font-weight: 600; color: #999;">Out for Delivery</div>
+                        <div style="font-size: 13px; color: #999;">Pending</div>
+                    </div>
+                </div>
+                <div class="status-item">
+                    <div class="status-dot">✓</div>
+                    <div>
+                        <div style="font-weight: 600; color: #999;">Delivered</div>
+                        <div style="font-size: 13px; color: #999;">Pending</div>
+                    </div>
+                </div>
+            </div>
+
+            <button class="btn btn-primary" onclick="showScreen('invoice')">Download Invoice</button>
+            <button class="btn btn-secondary" onclick="alert('Contact support')">Contact Support</button>
+        </div>
+
+        <!-- Order History -->
+        <div class="screen" id="order-history">
+            <button class="back-btn" onclick="showScreen('home')">←</button>
+            <div class="header">
+                <h1>Order History</h1>
+                <p>Last 3 months</p>
+            </div>
+
+            <div class="medicine-card" onclick="showScreen('order-tracking')">
+                <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 10px;">
+                    <div>
+                        <div class="medicine-name">#ORD-2024-1234</div>
+                        <div class="medicine-info">Nov 28, 2024 • 3 items</div>
+                    </div>
+                    <span class="badge" style="background: #e3f2fd; color: #1976d2;">In Transit</span>
+                </div>
+                <div class="medicine-price">$27.48</div>
+                <button class="btn btn-secondary" style="margin-top: 10px;" onclick="event.stopPropagation(); showScreen('order-tracking')">Track Order</button>
+            </div>
+
+            <div class="medicine-card">
+                <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 10px;">
+                    <div>
+                        <div class="medicine-name">#ORD-2024-1189</div>
+                        <div class="medicine-info">Nov 15, 2024 • 2 items</div>
+                    </div>
+                    <span class="badge" style="background: #e0f7e0; color: #2e7d32;">Delivered</span>
+                </div>
+                <div class="medicine-price">$18.99</div>
+                <div style="display: flex; gap: 10px; margin-top: 10px;">
+                    <button class="btn btn-secondary" style="flex: 1;" onclick="reorder()">Reorder</button>
+                    <button class="btn btn-secondary" style="flex: 1;" onclick="showScreen('feedback')">Rate Order</button>
+                </div>
+            </div>
+
+            <div class="medicine-card">
+                <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 10px;">
+                    <div>
+                        <div class="medicine-name">#ORD-2024-1045</div>
+                        <div class="medicine-info">Oct 28, 2024 • 5 items</div>
+                    </div>
+                    <span class="badge" style="background: #e0f7e0; color: #2e7d32;">Delivered</span>
+                </div>
+                <div class="medicine-price">$45.20</div>
+                <div style="display: flex; gap: 10px; margin-top: 10px;">
+                    <button class="btn btn-secondary" style="flex: 1;" onclick="reorder()">Reorder</button>
+                    <button class="btn btn-secondary" style="flex: 1;" onclick="showScreen('invoice')">Invoice</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Invoice Screen -->
+        <div class="screen" id="invoice">
+            <button class="back-btn" onclick="showScreen('order-history')">←</button>
+            <div class="header">
+                <h1>Invoice</h1>
+                <p>Order #ORD-2024-1234</p>
+            </div>
+
+            <div style="background: #f9f9f9; padding: 20px; border-radius: 12px; margin-bottom: 20px;">
+                <div style="font-weight: 600; margin-bottom: 15px;">Invoice Details</div>
+                <div style="font-size: 14px; color: #666; line-height: 1.8;">
+                    <div style="display: flex; justify-content: space-between;">
+                        <span>Invoice Number:</span>
+                        <span style="font-weight: 600;">#INV-2024-1234</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                        <span>Date:</span>
+                        <span>Nov 28, 2024</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                        <span>Payment Method:</span>
+                        <span>Credit Card</span>
+                    </div>
+                </div>
+            </div>
+
+            <div style="background: #f9f9f9; padding: 20px; border-radius: 12px; margin-bottom: 20px;">
+                <div style="font-weight: 600; margin-bottom: 15px;">Items</div>
+                <div style="font-size: 14px; margin-bottom: 10px;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                        <span>Paracetamol 500mg (x2)</span>
+                        <span>$11.98</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                        <span>Amoxicillin 250mg (x1)</span>
+                        <span>$12.50</span>
+                    </div>
+                </div>
+                <div style="border-top: 2px solid #e0e0e0; padding-top: 10px; margin-top: 10px;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                        <span>Subtotal:</span>
+                        <span>$24.48</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                        <span>Delivery:</span>
+                        <span>$3.00</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; font-weight: 700; font-size: 16px; color: #667eea;">
+                        <span>Total:</span>
+                        <span>$27.48</span>
+                    </div>
+                </div>
+            </div>
+
+            <button class="btn btn-primary" onclick="alert('Invoice PDF downloaded')">📥 Download Invoice PDF</button>
+            <button class="btn btn-secondary" onclick="alert('COC PDF downloaded')">📥 Download Certificate of Conformity</button>
+        </div>
+
+        <!-- Feedback Screen -->
+        <div class="screen" id="feedback">
+            <button class="back-btn" onclick="showScreen('order-history')">←</button>
+            <div class="header">
+                <h1>Rate Your Order</h1>
+                <p>Order #ORD-2024-1189</p>
+            </div>
+
+            <div style="text-align: center; margin: 30px 0;">
+                <div style="font-size: 16px; font-weight: 600; margin-bottom: 15px;">How was your experience?</div>
+                <div class="rating-stars">
+                    <span class="star" onclick="setRating(1)">★</span>
+                    <span class="star" onclick="setRating(2)">★</span>
+                    <span class="star" onclick="setRating(3)">★</span>
+                    <span class="star" onclick="setRating(4)">★</span>
+                    <span class="star" onclick="setRating(5)">★</span>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label>Your Feedback (Optional)</label>
+                <textarea rows="5" placeholder="Tell us about your experience..."></textarea>
+            </div>
+
+            <button class="btn btn-primary" onclick="submitFeedback()">Submit Feedback</button>
+            <button class="btn btn-secondary" onclick="showScreen('order-history')">Skip</button>
+        </div>
+
+        <!-- Profile Screen -->
+        <div class="screen" id="profile">
+            <div class="header">
+                <h1>My Profile</h1>
+            </div>
+
+            <div style="text-align: center; margin: 30px 0;">
+                <div style="width: 100px; height: 100px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 50%; margin: 0 auto 15px; display: flex; align-items: center; justify-content: center; font-size: 48px; color: white;">👤</div>
+                <div style="font-size: 20px; font-weight: 600;">John Doe</div>
+                <div style="color: #666; font-size: 14px;">john.doe@email.com</div>
+            </div>
+
+            <div class="medicine-card" onclick="alert('Edit profile')">
+                <div style="display: flex; align-items: center; gap: 15px;">
+                    <span style="font-size: 24px;">✏️</span>
+                    <div style="flex: 1;">
+                        <div class="medicine-name">Edit Profile</div>
+                        <div class="medicine-info">Update your personal information</div>
+                    </div>
+                    <span>→</span>
+                </div>
+            </div>
+
+            <div class="medicine-card" onclick="alert('Manage addresses')">
+                <div style="display: flex; align-items: center; gap: 15px;">
+                    <span style="font-size: 24px;">📍</span>
+                    <div style="flex: 1;">
+                        <div class="medicine-name">Saved Addresses</div>
+                        <div class="medicine-info">Manage delivery addresses</div>
+                    </div>
+                    <span>→</span>
+                </div>
+            </div>
+
+            <div class="medicine-card" onclick="alert('Payment methods')">
+                <div style="display: flex; align-items: center; gap: 15px;">
+                    <span style="font-size: 24px;">💳</span>
+                    <div style="flex: 1;">
+                        <div class="medicine-name">Payment Methods</div>
+                        <div class="medicine-info">Manage saved cards</div>
+                    </div>
+                    <span>→</span>
+                </div>
+            </div>
+
+            <div class="medicine-card" onclick="alert('Settings')">
+                <div style="display: flex; align-items: center; gap: 15px;">
+                    <span style="font-size: 24px;">⚙️</span>
+                    <div style="flex: 1;">
+                        <div class="medicine-name">Settings</div>
+                        <div class="medicine-info">App preferences & notifications</div>
+                    </div>
+                    <span>→</span>
+                </div>
+            </div>
+
+            <button class="btn btn-secondary" onclick="showScreen('welcome')" style="margin-top: 20px;">Logout</button>
+        </div>
+
+        <!-- Bottom Navigation -->
+        <div class="bottom-nav">
+            <div class="nav-item" onclick="showScreen('home')">
+                <div class="nav-icon">🏠</div>
+                <div class="nav-label">Home</div>
+            </div>
+            <div class="nav-item" onclick="showScreen('search')">
+                <div class="nav-icon">🔍</div>
+                <div class="nav-label">Search</div>
+            </div>
+            <div class="nav-item" onclick="showScreen('cart')">
+                <div class="nav-icon">🛒</div>
+                <div class="nav-label">Cart</div>
+            </div>
+            <div class="nav-item" onclick="showScreen('order-history')">
+                <div class="nav-icon">📦</div>
+                <div class="nav-label">Orders</div>
+            </div>
+            <div class="nav-item" onclick="showScreen('profile')">
+                <div class="nav-icon">👤</div>
+                <div class="nav-label">Profile</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showScreen(screenId) {
+            document.querySelectorAll('.screen').forEach(screen => {
+                screen.classList.remove('active');
+            });
+            document.getElementById(screenId).classList.add('active');
+            document.getElementById(screenId).scrollTop = 0;
+        }
+
+        function addToCart() {
+            alert('✅ Added to cart!');
+        }
+
+        function reorder() {
+            alert('✅ Items added to cart! You can modify quantities before checkout.');
+            showScreen('cart');
+        }
+
+        function setRating(stars) {
+            document.querySelectorAll('.star').forEach((star, index) => {
+                if (index < stars) {
+                    star.classList.add('active');
+                } else {
+                    star.classList.remove('active');
+                }
+            });
+        }
+
+        function submitFeedback() {
+            alert('✅ Thank you for your feedback!');
+            showScreen('order-history');
+        }
+
+        // Auto-advance OTP inputs
+        document.addEventListener('DOMContentLoaded', function() {
+            const otpInputs = document.querySelectorAll('.otp-input');
+            otpInputs.forEach((input, index) => {
+                input.addEventListener('input', function() {
+                    if (this.value.length === 1 && index < otpInputs.length - 1) {
+                        otpInputs[index + 1].focus();
+                    }
+                });
+                input.addEventListener('keydown', function(e) {
+                    if (e.key === 'Backspace' && this.value === '' && index > 0) {
+                        otpInputs[index - 1].focus();
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
